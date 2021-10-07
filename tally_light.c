@@ -30,10 +30,12 @@ unsigned char *readLine() {
 // 4. (6,  7 )
 // 5. (8,  9 )
 // 6. (10, 11)
+// 7. (12, 13)
+// 8. (14, 15)
 void refreshLEDConfig()
 {
     // Reset all LEDs
-    for (int i = 0; i < 12; i++)
+    for (int i = 0; i <= 15; i++)
     {
         gpio_put(i, 0);
     };
@@ -55,7 +57,7 @@ int main() {
 
 
     // Init first 12 GPIO (0-11)
-    for (int i = 0; i < 12; i++)
+    for (int i = 0; i <= 15; i++)
     {
         gpio_init(i);
         gpio_set_dir(i, GPIO_OUT);
@@ -72,22 +74,22 @@ int main() {
         printf("Got input %d\n", input);
 
         // 0 = Online Camera Deadspace
-        // 1-6 = Online Cameras 1-6
-        // 7 = Preview Camera Deadspace
-        // 8-13 = Preview Cameras 1-6
-        if (input <= 6) // An online camera
+        // 1-8 = Online Cameras 1-6
+        // 9 = Preview Camera Deadspace
+        // 10-18 = Preview Cameras 1-6
+        if (input <= 8) // An online camera
         {
             onlineCam = input;
             printf("Set online cam %d\n", onlineCam);
         }
-        else if (input <= 13)
+        else if (input <= 18)
         {
-            previewCam = input - 7;
+            previewCam = input - 10;
             printf("Set preview cam %d\n", previewCam);
         }
         else
         {
-            printf("Your input value was not between 0 and 13.\n"); // The current online camera is " + onlineCam + " and the preview cam is " + previewCam);
+            printf("Your input value was not between 0 and 18.\n"); // The current online camera is " + onlineCam + " and the preview cam is " + previewCam);
         }
         refreshLEDConfig();
     }
